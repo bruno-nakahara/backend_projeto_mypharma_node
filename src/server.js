@@ -1,17 +1,20 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const morganBody = require('morgan-body');
-const fs = require('fs');
-const path = require('path');
-const routes = require('./routes');
+import express from 'express';
+import { json } from 'body-parser';
+import morganBody from 'morgan-body';
+import { createWriteStream } from 'fs';
+import { join } from 'path';
+import routes from './routes';
+import mongoose from 'mongoose';
 
 const app = express();
-const port = 3000;
 
-app.use(bodyParser.json());
-app.use(routes);
+require('dotenv').config();
 
-const log = fs.createWriteStream(path.join(__dirname, './logs', 'status.log'), {
+mongoose.connect(process.env.MONGO_DB_URL, {
+  useNewUrlParser: true,
+});
+
+const log = createWriteStream(join(__dirname, './logs', 'status.log'), {
   flag: 'a',
 });
 
@@ -20,6 +23,9 @@ morganBody(app, {
   stream: log,
 });
 
-app.listen(port, () => {
-  console.log(`Rodando na porta ${port}`);
+app.use(json());
+app.use(routes);
+
+app.listen(process.env.PORT, () => {
+  console.log(`Rodando na porta ${process.env.PORT}`);
 });

@@ -5,7 +5,7 @@ function VerifyToken(req, res, next) {
 
   jwt.verify(token, process.env.JWT_SECRET, err => {
     if (err) {
-      return res.status(401).json({ message: 'Invalid token' });
+      return res.status(401).json({ message: 'Token inválido, favor logar' });
     }
 
     return next();

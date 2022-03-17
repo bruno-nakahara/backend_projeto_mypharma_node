@@ -40,7 +40,7 @@ const requestLogin = async (req, res) => {
     },
     process.env.JWT_SECRET,
     {
-      expiresIn: 3600,
+      expiresIn: 72000,
     }
   );
 

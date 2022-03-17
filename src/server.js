@@ -6,13 +6,9 @@ import { join } from 'path';
 import routes from './routes';
 import mongoose from 'mongoose';
 
-const app = express();
-
 require('dotenv').config();
 
-mongoose.connect(process.env.MONGO_DB_URL, {
-  useNewUrlParser: true,
-});
+const app = express();
 
 const log = createWriteStream(join(__dirname, './logs', 'status.log'), {
   flag: 'a',
@@ -21,6 +17,10 @@ const log = createWriteStream(join(__dirname, './logs', 'status.log'), {
 morganBody(app, {
   noColors: true,
   stream: log,
+});
+
+mongoose.connect(process.env.MONGO_DB_URL, {
+  useNewUrlParser: true,
 });
 
 app.use(json());

@@ -9,7 +9,7 @@ const routes = express.Router();
 
 //User
 routes.post('/user', createUser);
-routes.get('/login', requestLogin);
+routes.post('/login', requestLogin);
 
 routes.use('/brand', brand);
 routes.use('/category', category);
